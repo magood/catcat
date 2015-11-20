@@ -1,0 +1,18 @@
+geoalchemy doesn't work with newer version of sqlalchemy - it must not be being updated often.
+(They have moved on to v2 and probbably aren't supporting this)
+Sooooo.... You have to hack the base.py in the virtualenv version (in lib/site-packages).
+see reference base.py
+
+Summary of changes:
+
+Imports:
+try:
+    from sqlalchemy.sql.functions import Function
+except ImportError:
+    from sqlalchemy.sql.expression import Function  # sqlalchemy < 0.9
+	
+then throughout code change all cases of expression.function to function.
+
+Then way down at the bottom:
+class SpatialComparator(ColumnProperty.Comparator):
+which used to be ColumnComparator or something.

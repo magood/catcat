@@ -1,0 +1,21 @@
+there is a geo object which is None
+id which is a long, id_str which is a string
+DUDE there is even a lang attribute which was 'fr' when I made a stupid joke in french
+text is unicode and is the WHOLE text including @atcatcat and url of image
+user object includes a TON of stuff
+	-Name (unicode, friendly)
+	-profile_image_url
+	-screen_name (user id)
+	-url for user
+mentions includes attributes max_id and since_id
+entities[u'media'][0][u'media_url'] and then append ":large" or the value of [u'sizes'] that maximizes [u'sizes'][x][u'w']
+
+One of the tweets has a place object...  geo & coordinates are still None.
+	-place.bounding_box.coordinates[0] is an array of [lat,lng] (or lng,lat, not sure)
+		-WKT should specify as LON LAT I think.
+	-place.bounding_box.type shows up as u'Polygon'
+	-place.country (name), place.country_code ('US'), place.full_name is best for geotagging probably (u'Orland Park, IL'), place.place_type is u'city' for this one...
+	-there's a place.url there that you can get... something... for.  But you must be authenticated.
+	
+twm.user.name
+

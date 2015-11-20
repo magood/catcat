@@ -1,0 +1,88 @@
+{% extends "/empty_layout.html" %}
+
+{% block head %}
+<style type="text/css">
+    html, body, #map-canvas {
+        height:100%;
+        margin: 0;
+        padding: 0;
+    }
+    #map-canvas {
+        height:100%;
+    }
+    .mapImgContent {
+        text-align:center;
+    }
+    img.mapImage {
+        max-width:100%;
+        max-height:415px;
+    }
+</style>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRhVfQYpVDzdJwI7GnvKh5IE5cRTfnWTQ"></script>
+<script type="text/javascript">
+    var map, bounds;
+    var openInfoWindow = null;
+    var allCats = null;
+    function initialize() {
+        var mapOptions = {
+            zoom: 7
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+        bounds = new google.maps.LatLngBounds();
+    }
+
+    $(function () {
+        initialize();
+        $.get("/api/cats", function (data) {
+            allCats = data.cats;
+            for (var i = 0, len = data.cats.length; i < len; i++) {
+                img = data.cats[i];
+                if (img.coords != null) {
+                    //Lat,Lng
+                    var lat = img.coords[1];
+                    var lng = img.coords[0];
+                    var myLatlng = new google.maps.LatLng(lat, lng);
+                    var marker = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        title: img.title
+                    });
+                    attachWindowListener(marker, img);
+                    bounds.extend(myLatlng);
+                }
+            }
+            map.fitBounds(bounds);
+        });
+    });
+    function attachWindowListener(marker, img) {
+        var content = getInfoWindowContent(img)
+        var infowindow = new google.maps.InfoWindow({
+            content: content
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+            if (openInfoWindow)
+                openInfoWindow.close();
+            infowindow.open(map, marker);
+            openInfoWindow = infowindow;
+        });
+    }
+    function getInfoWindowContent(img) {
+        var content = $("<div class='mapImgContent'>");
+        var title = $("<h4>").text(img.title);
+        var img = $("<img class='mapImage'>").attr("src", img.filename).attr('alt', img.title);
+        content.append(title).append(img);
+        return $('<div>').append(content).html(); //"outerHtml" hack
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div style="padding-top:50px; height:100%" class="clearfix">
+    <div id="map-canvas"></div>
+</div>
+
+{% endblock %}
