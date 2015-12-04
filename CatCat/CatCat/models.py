@@ -1,6 +1,6 @@
 ﻿from CatCat import db
 from sqlalchemy import Column, BigInteger, Integer, SmallInteger, String, Date, DateTime, ForeignKey, Float, Boolean
-from geoalchemy import *
+from geoalchemy2 import *
 import datetime
 import re
 
@@ -43,13 +43,12 @@ class Location(db.Model):
     __tablename__ = 'Location'
     __table_args__ = {'mysql_engine':'MyISAM','mysql_charset':'utf8'}
     id = Column(BigInteger, primary_key=True)
-    loc = GeometryColumn(Point(2))
+    loc = Column(Geometry('POINT(2)'))
     #image = db.relationship('Image', backref='location', foreign_keys=['loc_id'])
     #other backrefs?
 
 class Image(db.Model):
     __tablename__ = 'Image'
-    __table_args__ = {'mysql_engine':'MyISAM','mysql_charset':'utf8'}
     id = Column(BigInteger, primary_key=True)
     entry_date  = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
     creator_id = Column(BigInteger, ForeignKey('User.id'), index=True, nullable=True)
@@ -66,7 +65,6 @@ class Image(db.Model):
 
 class Mention(db.Model):
     __tablename__ = 'Mention'
-    __table_args__ = {'mysql_engine':'MyISAM','mysql_charset':'utf8'}
     tw_id = Column(BigInteger, primary_key=True, autoincrement=False) #twitter's id
     entry_date  = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
     tw_text = Column(String(140), nullable=False)
@@ -82,7 +80,6 @@ class Mention(db.Model):
 
 class TwitterLog(db.Model):
     __tablename__ = 'TwitterLog'
-    __table_args__ = {'mysql_engine':'InnoDB','mysql_charset':'utf8'}
     id = Column(BigInteger, primary_key=True)
     entry_date  = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
     tw_since_id = Column(BigInteger) #twitter's id
