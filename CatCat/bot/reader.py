@@ -1,13 +1,13 @@
-import tweepy
+﻿import tweepy
 import config
 from CatCat.models import Image, Mention, TwitterLog, Location
 from CatCat import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
-from geoalchemy import *
+from geoalchemy2 import *
 import requests
 from PIL import Image as PIL_Image
-from StringIO import StringIO
+from io import StringIO
 import os
 
 api = None
@@ -27,7 +27,7 @@ def get_mentions():
         max_id = mention.id
         if since_id is None:
             since_id = mention.id
-        print mention.user.screen_name + ": " + mention.text
+        print(mention.user.screen_name + ": " + mention.text)
         process_mention(mention)
     log_bot_run(since_id, max_id)
 

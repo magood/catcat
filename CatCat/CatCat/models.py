@@ -43,7 +43,7 @@ class Location(db.Model):
     __tablename__ = 'Location'
     __table_args__ = {'mysql_engine':'MyISAM','mysql_charset':'utf8'}
     id = Column(BigInteger, primary_key=True)
-    loc = Column(Geometry('POINT(2)'))
+    loc = Column(Geometry('POINT'))
     #image = db.relationship('Image', backref='location', foreign_keys=['loc_id'])
     #other backrefs?
 
@@ -85,4 +85,4 @@ class TwitterLog(db.Model):
     tw_since_id = Column(BigInteger) #twitter's id
     tw_max_id = Column(BigInteger) #twitter's id
 
-GeometryDDL(Location.__table__)
+#GeometryDDL(Location.__table__)

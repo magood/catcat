@@ -1,8 +1,8 @@
-import os
+﻿import os
 from CatCat import create_app, db
 from flask_script import Manager, Shell
 from sqlalchemy.sql import text
-from geoalchemy import *
+from geoalchemy2 import *
 from CatCat.models import Image, Location
 from bot import reader
 import logging
@@ -16,11 +16,12 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 
 @manager.command
 def init_db():
-    #Note that geoalchemy needs to be patched to work with sqlalchemy >= v.9
-    #https://github.com/geoalchemy/geoalchemy/pull/35/files?diff=unified
     db.drop_all()
     db.create_all()
-    thing = raw_input("Press enter to start")
+
+@manager.command
+def old_copy_data():
+    thing = input("Press enter to start")
     #copy over initial data from catcat v1
     #old_query = text("""insert into catcat2.Image
     #    (entry_date, filename, address_text, loc, title, description, verified, rejected)

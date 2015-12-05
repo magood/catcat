@@ -1,7 +1,7 @@
-from datetime import datetime
+﻿from datetime import datetime
 from flask import render_template, jsonify
 from . import main
-import catservice;
+from . import catservice
 
 @main.route('/')
 @main.route('/home')
