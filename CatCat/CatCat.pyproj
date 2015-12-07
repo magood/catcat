@@ -63,6 +63,12 @@
     <Compile Include="config_example.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="init_data\db_init.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="init_data\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="manage.py">
       <SubType>Code</SubType>
     </Compile>
@@ -86,12 +92,20 @@
     <Folder Include="CatCat\templates\auth\" />
     <Folder Include="CatCat\templates\main\" />
     <Folder Include="bot\" />
+    <Folder Include="init_data\" />
+    <Folder Include="init_data\legacy_export\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CatCat\templates\auth\login.html" />
     <Content Include="CatCat\templates\empty_layout.html" />
     <Content Include="CatCat\templates\main\allcats.html" />
     <Content Include="CatCat\templates\main\index.html" />
+    <Content Include="init_data\legacy_export\Image Export Query.sql" />
+    <Content Include="init_data\legacy_export\Image.csv" />
+    <Content Include="init_data\legacy_export\Location.csv" />
+    <Content Include="init_data\legacy_export\Mention.csv" />
+    <Content Include="init_data\legacy_export\TwitterLog.csv" />
+    <Content Include="init_data\legacy_export\User.csv" />
     <Content Include="requirements.txt" />
     <Content Include="CatCat\static\content\bootstrap.css" />
     <Content Include="CatCat\static\content\bootstrap.min.css" />
@@ -121,17 +135,6 @@
     <Content Include="CatCat\templates\layout.html" />
   </ItemGroup>
   <ItemGroup>
-    <Interpreter Include="env2\">
-      <Id>{13c3d3fd-0c29-4302-8125-b415e34ddcdd}</Id>
-      <BaseInterpreter>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</BaseInterpreter>
-      <Version>2.7</Version>
-      <Description>env2 (Python 2.7)</Description>
-      <InterpreterPath>Scripts\python.exe</InterpreterPath>
-      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
-      <LibraryPath>Lib\</LibraryPath>
-      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
-      <Architecture>X86</Architecture>
-    </Interpreter>
     <Interpreter Include="env3\">
       <Id>{9662e896-277e-4727-880a-55e2f41a2bc3}</Id>
       <BaseInterpreter>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</BaseInterpreter>
