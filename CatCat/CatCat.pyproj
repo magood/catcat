@@ -57,6 +57,9 @@
     <Compile Include="CatCat\models.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CatCat\wsgi.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>

@@ -19,6 +19,7 @@ lm = LoginManager()
 authomatic = Authomatic(ConfigClass.OAUTH_PROVIDERS, 'random secret string for session signing')
 
 def create_app(config_name):
+    """creates a flask app instance using the given configuration"""
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     db.init_app(app)
