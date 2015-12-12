@@ -1,12 +1,12 @@
-from CatCat.models import Image
+﻿from CatCat.models import Image
 from CatCat import db
 import re
 
 def get_all_cats():
-    q = """select i.entry_date, CONVERT(AsText(l.loc),char(64)) wkt_loc,
+    q = """select i.entry_date, ST_AsText(l.loc) wkt_loc,
 	        i.title, i.description, i.filename
-        from Image i
-            left join Location l on i.loc_id=l.id
+        from public."Image" i
+            left join "Location" l on i.loc_id=l.id
         order by i.entry_date desc"""
     imgquery = db.session.execute(q).fetchall()
     images = [{
