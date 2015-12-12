@@ -1,11 +1,11 @@
-import csv
+﻿import csv
 from CatCat.models import User, Image, Location, Mention, TwitterLog
 from geoalchemy2.elements import WKTElement
 import os
 
 def load_images(db):
     print("loading images...")
-    with open('init_data\legacy_export\Image.csv', 'r') as img_csvfile:
+    with open('init_data\legacy_export\Image.csv', 'r', encoding="utf-8") as img_csvfile:
         reader = csv.DictReader(img_csvfile)
         for row in reader:
             #ignore mentions for now, handle below if you need them

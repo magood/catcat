@@ -22,11 +22,12 @@ def init_db():
     
 @manager.command
 def import_data():
+    thing = input("Press enter to start")
     db_init.load_images(db)
 
 @manager.command
 def test_mentions():
-    thing = raw_input("Press enter to start")
+    thing = input("Press enter to start")
     reader.get_mentions()
     pass
 
