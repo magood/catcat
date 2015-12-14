@@ -1,4 +1,4 @@
-"""
+﻿"""
 Routes and views for the flask application.
 """
 
@@ -6,8 +6,7 @@ from datetime import datetime
 from flask import render_template
 from CatCat import app
 
-@main.route('/')
-@main.route('/home')
+@main.route('/catcat/home')
 def home():
     """Renders the home page."""
     return render_template(
@@ -16,7 +15,7 @@ def home():
         year=datetime.now().year,
     )
 
-@main.route('/contact')
+@main.route('/catcat/contact')
 def contact():
     """Renders the contact page."""
     return render_template(
@@ -26,7 +25,7 @@ def contact():
         message='Your contact page.'
     )
 
-@main.route('/about')
+@main.route('/catcat/about')
 def about():
     """Renders the about page."""
     return render_template(
