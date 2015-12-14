@@ -3,8 +3,10 @@ from flask import render_template, jsonify
 from . import main
 from . import catservice
 
-@main.route("/catcat")
-@main.route('/catcat/home')
+@main.route('/')
+@main.route('/home')
+#@main.route("/catcat")
+#@main.route('/catcat/home')
 def home():
     """Renders the home page."""
     return render_template(
@@ -13,12 +15,12 @@ def home():
         year=datetime.now().year,
     )
 
-@main.route("/catcat/api/cats")
+@main.route("/api/cats")
 def api_cats():
     images = catservice.get_all_cats()
     return jsonify(cats = images)
 
-@main.route('/catcat/cats')
+@main.route('/cats')
 def cats():
     """Renders the All Cat Cats page."""
     mycats = catservice.get_all_cats()
@@ -30,7 +32,7 @@ def cats():
         allcats = mycats
     )
 
-@main.route('/catcat/about')
+@main.route('/about')
 def about():
     """Renders the about page."""
     return render_template(
@@ -40,7 +42,7 @@ def about():
         message='Your application description page.'
     )
 
-@main.route('/catcat/contact')
+@main.route('/contact')
 def contact():
     """Renders the contact page."""
     return render_template(
