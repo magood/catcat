@@ -3,6 +3,7 @@ from flask import render_template, jsonify
 from . import main
 from . import catservice
 
+@main.route("/catcat/")
 @main.route('/catcat/home')
 def home():
     """Renders the home page."""
