@@ -36,7 +36,7 @@
 
     $(function () {
         initialize();
-        $.get("/api/cats", function (data) {
+        $.get("catcat/api/cats", function (data) {
             allCats = data.cats;
             for (var i = 0, len = data.cats.length; i < len; i++) {
                 img = data.cats[i];
