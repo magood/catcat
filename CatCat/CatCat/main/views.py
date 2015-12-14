@@ -5,8 +5,6 @@ from . import catservice
 
 @main.route('/')
 @main.route('/home')
-#@main.route("/catcat")
-#@main.route('/catcat/home')
 def home():
     """Renders the home page."""
     return render_template(
