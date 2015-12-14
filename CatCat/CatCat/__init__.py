@@ -6,7 +6,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 from flask import Flask
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
-from config import config, Config as ConfigClass
+#from . import config, Config as ConfigClass
+from . import config
+#from config import config, Config as ConfigClass
 from flask_login import LoginManager
 
 from authomatic.adapters import WerkzeugAdapter
@@ -16,12 +18,12 @@ db = SQLAlchemy()
 manager = Manager()
 
 lm = LoginManager()
-authomatic = Authomatic(ConfigClass.OAUTH_PROVIDERS, 'random secret string for session signing')
+authomatic = Authomatic(config.Config.OAUTH_PROVIDERS, 'random secret string for session signing')
 
 def create_app(config_name):
     """creates a flask app instance using the given configuration"""
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    app.config.from_object(config.config[config_name])
     db.init_app(app)
     lm.init_app(app)
     lm.login_view = 'auth.login'
