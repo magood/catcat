@@ -291,6 +291,7 @@ _Pvt_Extensions
 
 #my config file
 config.py
+CatCat/CatCat/config.py
 
 #image dir
 image_media/
