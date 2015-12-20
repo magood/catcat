@@ -1,4 +1,4 @@
-import os
+﻿import os
 from authomatic.providers import oauth2
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -8,6 +8,7 @@ class Config:
     
     SQLALCHEMY_COMMIT_ON_TEARDOWN = False
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     UPLOAD_FOLDER = '/path/to/the/uploads'

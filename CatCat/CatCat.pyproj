@@ -63,7 +63,7 @@
     <Compile Include="CatCat\config.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="config_example.py">
+    <Compile Include="CatCat\config_example.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="init_data\db_init.py">
