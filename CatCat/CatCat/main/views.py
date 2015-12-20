@@ -2,6 +2,8 @@
 from flask import render_template, jsonify
 from . import main
 from . import catservice
+from CatCat.models import Image, Location
+from CatCat import db
 
 @main.route('/')
 @main.route('/home')
@@ -17,6 +19,12 @@ def home():
 def api_cats():
     images = catservice.get_all_cats()
     return jsonify(cats = images)
+
+@main.route("/api/nearby_cats/<int:cat_id>")
+def api_nearby_cats(cat_id):
+    cat = db.session.query(Image).get(cat_id)
+    nearby = catservice.get_nearby(cat.location.loc, cat_id, 4)
+    return jsonify(nearby = nearby)
 
 @main.route('/cats')
 def cats():

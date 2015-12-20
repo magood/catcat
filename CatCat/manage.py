@@ -35,6 +35,7 @@ def test_mentions():
 def twitter_import():
     #requests issues InsecurePlatformWarning that can't be resolved without adding software
     #I don't have permissions to add, or downgrading (not great either).  Suppress warnings.
+    #TODO investigate now that I'm on good hosting...
     logging.captureWarnings(True)
     reader.get_mentions()
 

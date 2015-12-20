@@ -43,7 +43,7 @@ class Location(db.Model):
     __tablename__ = 'Location'
     __table_args__ = {'mysql_engine':'MyISAM','mysql_charset':'utf8'}
     id = Column(BigInteger, primary_key=True)
-    loc = Column(Geometry('POINT'))
+    loc = Column(Geometry('POINT', srid=4326)) #4326 means "normal" WGS84 lat/long
     #image = db.relationship('Image', backref='location', foreign_keys=['loc_id'])
     #other backrefs?
 

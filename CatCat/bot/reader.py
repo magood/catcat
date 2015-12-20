@@ -1,5 +1,5 @@
 ﻿import tweepy
-import config
+from CatCat import config
 from CatCat.models import Image, Mention, TwitterLog, Location
 from CatCat import db
 from sqlalchemy.exc import IntegrityError

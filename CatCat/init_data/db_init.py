@@ -19,7 +19,7 @@ def load_images(db):
                 rejected = row['rejected']
                 loc_wkt = row['loc_wkt']
                 il = Location()
-                il.loc = WKTElement(loc_wkt)
+                il.loc = WKTElement(loc_wkt, srid=4326) #4326 is "normal" lag/lng
 
                 i = Image()
                 i.entry_date = entry_date

@@ -16,6 +16,23 @@
     img.mapImage {
         max-width:100%;
         max-height:415px;
+        margin-bottom:1em;
+    }
+    .catImgContainer {
+        text-align:center;
+    }
+    #catPicModal .modal-footer {
+        background-color:#222222;
+        color:#aaaaaa;
+    }
+    .nearbyImage {
+        max-height:100px;
+    }
+    .vcenter {
+            float:none;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:-4px;
     }
 </style>
 {% endblock %}
@@ -48,7 +65,8 @@
                     var marker = new google.maps.Marker({
                         position: myLatlng,
                         map: map,
-                        title: img.title
+                        title: img.title,
+                        imgObj: img //custom data
                     });
                     attachWindowListener(marker, img);
                     bounds.extend(myLatlng);
@@ -58,23 +76,28 @@
         });
     });
     function attachWindowListener(marker, img) {
-        var content = getInfoWindowContent(img)
-        var infowindow = new google.maps.InfoWindow({
-            content: content
-        });
         google.maps.event.addListener(marker, 'click', function () {
-            if (openInfoWindow)
-                openInfoWindow.close();
-            infowindow.open(map, marker);
-            openInfoWindow = infowindow;
+            var img = marker.imgObj;
+            $("#catPicModal .imageTitle").text(img.title);
+            $("#catPicModal .imageDescription").text(img.description);
+            $("#catPicModal .mapImage").attr("src", img.filename).attr("alt", "Cat Cat Image: " + img.title);
+            $('#catPicModal').modal('show');
+            //look for nearby cats:
+            //perhaps set up "loading" icons first...
+            var $nearImgs = $("#catPicModal .nearImage");
+            $nearImgs.html("");
+            $.get("api/nearby_cats/" + img.id, function (data) {
+                var dataIdx = 0;
+                for (var domIdx = 0; domIdx < $nearImgs.length && dataIdx < data.nearby.length; domIdx++) {
+                    var row = data.nearby[dataIdx];
+                    var $imgContainer = $($nearImgs[domIdx]);
+                    var $img = $('<img class="nearbyImage img-responsive" />');
+                    $img.attr("src", row.filename).attr("title", row.title);
+                    $imgContainer.html('').append($img);
+                    dataIdx++;
+                }
+            });
         });
-    }
-    function getInfoWindowContent(img) {
-        var content = $("<div class='mapImgContent'>");
-        var title = $("<h4>").text(img.title);
-        var img = $("<img class='mapImage'>").attr("src", img.filename).attr('alt', img.title);
-        content.append(title).append(img);
-        return $('<div>').append(content).html(); //"outerHtml" hack
     }
 </script>
 {% endblock %}
@@ -83,6 +106,35 @@
 
 <div style="padding-top:50px; height:100%" class="clearfix">
     <div id="map-canvas"></div>
+</div>
+
+<!-- Cat Cat Image display modal -->
+<div class="modal fade" id="catPicModal" tabindex="-1" role="dialog" aria-labelledby="catPicModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="catPicModalLabel"><span class="imageTitle"></span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="catImgContainer">
+                    <img class='mapImage' />
+                    <div class="imageDescription"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div style="text-align:left;">
+                    <div>Nearby Cats:</div>
+                    <div class="row nearby_images">
+                        <div class="col-md-3 nearImage center-block vcenter"></div>
+                        <div class="col-md-3 nearImage center-block vcenter"></div>
+                        <div class="col-md-3 nearImage center-block vcenter"></div>
+                        <div class="col-md-3 nearImage center-block vcenter"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
