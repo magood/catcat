@@ -75,6 +75,9 @@
     <Compile Include="manage.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="manage_prd.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="passenger_wsgi.py">
       <SubType>Code</SubType>
     </Compile>
