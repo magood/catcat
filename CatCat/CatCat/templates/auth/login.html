@@ -4,7 +4,7 @@
 
 <h1>Sign In</h1>
 
-Login with <a href="dologin/google">Google</a>.<br />
+Login with <a href="{{url_for("auth.dologin", providername='google', _external=True, _scheme='https')}}">Google</a>.<br />
 Login with <a href="dologin/fb">Facebook</a>.<br />
 
 {% endblock %}
