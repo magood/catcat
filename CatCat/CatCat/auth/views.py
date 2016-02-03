@@ -1,4 +1,4 @@
-from flask import render_template, current_app, request, flash, redirect, session, url_for, request, g, make_response
+﻿from flask import render_template, current_app, request, flash, redirect, session, url_for, request, g, make_response
 from flask_login import login_user, logout_user, current_user, login_required
 from CatCat import lm, db
 from CatCat.models import User
@@ -9,7 +9,7 @@ from authomatic.exceptions import ConfigError
 
 @auth.route('/login')
 def login():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('main.home'))
     return render_template('auth/login.html',
                            title='Sign in')
@@ -26,7 +26,6 @@ def dologin(providername):
 
     # If there is no LoginResult object, the login procedure is still pending.
     if result:
-        videos = []
         if result.user:
             # We need to update the user to get more info. (from oath provider?)
             result.user.update()

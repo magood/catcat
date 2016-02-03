@@ -45,7 +45,13 @@
     <Compile Include="CatCat\main\catservice.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CatCat\main\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CatCat\main\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CatCat\main\uploadhelper.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CatCat\main\views.py">
@@ -75,9 +81,6 @@
     <Compile Include="manage.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="manage_prd.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="passenger_wsgi.py">
       <SubType>Code</SubType>
     </Compile>
@@ -105,7 +108,9 @@
     <Content Include="CatCat\templates\auth\login.html" />
     <Content Include="CatCat\templates\empty_layout.html" />
     <Content Include="CatCat\templates\main\allcats.html" />
+    <Content Include="CatCat\templates\main\image.html" />
     <Content Include="CatCat\templates\main\index.html" />
+    <Content Include="CatCat\templates\main\upload.html" />
     <Content Include="init_data\legacy_export\Image Export Query.sql" />
     <Content Include="init_data\legacy_export\Image.csv" />
     <Content Include="init_data\legacy_export\Location.csv" />

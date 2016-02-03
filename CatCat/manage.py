@@ -8,8 +8,10 @@ from bot import reader
 import logging
 from init_data import db_init
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-manager = Manager(app)
+#app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+manager = Manager(create_app)
+#to manage production, for example: python manage.py -c production command_name
+manager.add_option('-c', '--config', dest='config_name', required=False)
 
 def make_shell_context():
     return dict(app=app, db=db)

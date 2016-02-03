@@ -26,10 +26,28 @@
                     <li><a href="{{ url_for('main.cats') }}">All Cat Cats</a></li>
                     <li><a href="{{ url_for('main.about') }}">About</a></li>
                     <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    <li><a href="{{ url_for('main.upload') }}">New Sighting</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
 
     {% block content %}{% endblock %}
 

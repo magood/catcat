@@ -1,0 +1,20 @@
+{% extends "/empty_layout.html" %}
+{% block head %}
+<style type="text/css">
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>{{ cat.title }}</h1>
+    <img class="img-responsive" src="/static/image_media/{{ cat.filename }}">
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    $(function () {
+
+    });
+</script>
+{% endblock %}

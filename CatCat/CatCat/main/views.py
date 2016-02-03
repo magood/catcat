@@ -1,9 +1,16 @@
 ﻿from datetime import datetime
-from flask import render_template, jsonify
+from flask import render_template, jsonify, request, redirect, url_for, current_app, flash
+from flask_login import login_required, current_user
+import os
 from . import main
-from . import catservice
+from . import catservice, uploadhelper
 from CatCat.models import Image, Location
 from CatCat import db
+from . import forms
+from decimal import *
+from geoalchemy2.elements import WKTElement
+
+from werkzeug.utils import secure_filename
 
 @main.route('/')
 @main.route('/home')
@@ -37,6 +44,65 @@ def cats():
         year=datetime.now().year,
         allcats = mycats
     )
+
+@main.route('/image/<int:id>', methods=('GET', 'POST'))
+def image(id):
+    cat = db.session.query(Image).get(id)
+
+    return render_template(
+        'main/image.html',
+        title='CatCat Sighting',
+        cat=cat
+    )
+
+@main.route('/upload', methods=('GET', 'POST'))
+@login_required
+def upload():
+    """Page to add a new catcat sighting."""
+    form = forms.NewSightingForm()
+    if form.validate_on_submit():
+        file = request.files['imageFile']
+        if file and uploadhelper.allowed_file(file.filename):
+            filename = uploadhelper.save_with_rename(file)
+
+            #Create the DB model objects
+            i = Image()
+            i.creator = current_user
+            i.address_text = form.address.data
+            i.title = form.title.data
+            i.description = form.description.data
+            i.filename = filename
+            l = Location()
+            #Safety first. They should already but Decimals, but double-check.
+            lng = Decimal(form.loc_lng.data)
+            lat = Decimal(form.loc_lat.data)
+            #POINT(lng lat)
+            loc_wkt = "POINT({0} {1})".format(lng, lat)
+            l.loc = WKTElement(loc_wkt, srid=4326) #4326 is "normal" lag/lng
+            i.location = l
+            db.session.add(i)
+            db.session.commit()
+
+            new_id = i.id
+            return redirect(url_for('main.image', id=new_id))
+        else:
+            flash("File type not allowed.")
+    #otherwise...
+    return render_template(
+        'main/upload.html',
+        title='Add A Cat',
+        form=form
+    )
+
+#@main.route('/process_upload', methods=['POST'])
+#@login_required
+#def process_upload():
+#    file = request.files['file']
+#    if file and uploadhelper.allowed_file(file.filename):
+#        filename = secure_filename(file.filename)
+#        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+#        return redirect(url_for('uploaded_file',
+#                                filename=filename))
 
 @main.route('/about')
 def about():

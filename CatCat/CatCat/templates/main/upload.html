@@ -1,0 +1,90 @@
+{% extends "/empty_layout.html" %}
+{% block head %}
+<style type="text/css">
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Add a New Sighting</h1>
+
+    <form action="upload" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        {% if form.errors %}
+        <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="form-group">
+            <label class="control-label" for="imageFileInput">File input</label>
+            {{ form.imageFile }}
+            <p class="help-block">Png, jpg, or gif, please.</p>
+        </div>
+        <div class="form-group has-feedback">
+            <label class="control-label" for="address">Address/Location</label>
+            {{ form.address(class="form-control", placeholder="Address") }}
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            {{ form.loc_lat() }}
+            {{ form.loc_lng() }}
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="title">Title</label>
+            {{ form.title(class="form-control", placeholder="Image title") }}
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="description">Description</label>
+            {{ form.description(class="form-control", rows=3, placeholder="Optional description") }}
+        </div>
+        <input type="submit" value="Upload" class="btn btn-default">
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRhVfQYpVDzdJwI7GnvKh5IE5cRTfnWTQ"></script>
+<script>
+    var geocoder;
+    var map;
+    $(function () {
+        geocoder = new google.maps.Geocoder();
+        $("#address").blur(function (e) {
+            var address = $("#address").val();
+            codeAddress(address);
+        });
+    });
+    function setGeocodeSuccess(s) {
+        var group = $("#address").closest(".form-group");
+        var icon = $(".glyphicon", group);
+        if (s) {
+            group.removeClass("has-error");
+            icon.removeClass("glyphicon-remove");
+            group.addClass("has-success");
+            icon.addClass("glyphicon-ok");
+        } else {
+            group.removeClass("has-success");
+            icon.removeClass("glyphicon-ok");
+            group.addClass("has-error");
+            icon.addClass("glyphicon-remove");
+        }
+    }
+    function codeAddress(address) {
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var loc = results[0].geometry.location;
+                var lat = loc.lat();
+                var lng = loc.lng();
+                $("#loc_lat").val(lat);
+                $("#loc_lng").val(lng);
+                setGeocodeSuccess(true);
+            } else {
+                setGeocodeSuccess(false);
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+    }
+</script>
+{% endblock %}
