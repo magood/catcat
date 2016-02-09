@@ -5,6 +5,7 @@ from CatCat.models import User
 from . import auth
 from CatCat import authomatic
 from authomatic.adapters import WerkzeugAdapter
+from CatCat.FlaskAuthomatic import FlaskAuthomatic as fa
 from authomatic.exceptions import ConfigError
 
 @auth.route('/login')
@@ -19,8 +20,14 @@ def dologin(providername):
     #http://peterhudec.github.io/authomatic/examples/flask-simple.html
     response = make_response()
     # Authenticate the user
+    #TODO which adapter to use depends on environment
+    wa = fa.ForceHTTPSWerkzeugAdapter(request, response)
+    if current_app.config['DEBUG'] == True:
+        wa = WerkzeugAdapter(request, response)
+    #Flask/nginx/gunicorn/whatever doesn't think its in a secure environment if its set up as a proxy pass, which currently it is in prod.
+    #really wish i could get the server to realize its secure.
     try:
-        result = authomatic.login(WerkzeugAdapter(request, response), providername)
+        result = authomatic.login(wa, providername)
     except (ConfigError):
         return redirect(url_for('main.home'))
 

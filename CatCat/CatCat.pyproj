@@ -42,6 +42,9 @@
     <Compile Include="CatCat\auth\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CatCat\FlaskAuthomatic.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CatCat\main\catservice.py">
       <SubType>Code</SubType>
     </Compile>

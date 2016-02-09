@@ -3,6 +3,7 @@ from authomatic.providers import oauth2
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
+    DEBUG = False
     WTF_CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY') or "some key"
     #PREFERRED_URL_SCHEME = 'https'
