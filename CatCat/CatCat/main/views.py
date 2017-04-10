@@ -45,7 +45,7 @@ def cats():
         allcats = mycats
     )
 
-@main.route('/image/<int:id>', methods=('GET', 'POST'))
+@main.route('/image/<int:id>', methods=['GET'])
 def image(id):
     cat = db.session.query(Image).get(id)
 
@@ -93,6 +93,32 @@ def upload():
         title='Add A Cat',
         form=form
     )
+
+@main.route('/admin')
+@login_required
+def admin():
+    if not current_user.is_administrator():
+        return redirect(url_for('main.home'))
+    else:
+        pending = catservice.get_pending_approval()
+        return render_template(
+            'main/admin.html',
+            pending = pending,
+            title='Admin - Pending Approval'
+        )
+    
+@main.route('/admin/takeAction', methods=['POST'])
+@login_required
+def takeAction():
+    """Action to approve/reject a catcat image."""
+    if not current_user.is_administrator():
+        return jsonify(success = False)
+
+    form = forms.AdminActionForm()
+    if form.validate_on_submit():
+        return jsonify(success = True)
+    #otherwise...
+    return jsonify(success = False, errors = form.errors)
 
 #@main.route('/process_upload', methods=['POST'])
 #@login_required

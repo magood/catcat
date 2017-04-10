@@ -1,8 +1,39 @@
 ﻿from CatCat import db
+from flask import current_app
 from sqlalchemy import Column, BigInteger, Integer, SmallInteger, String, Date, DateTime, ForeignKey, Float, Boolean
 from geoalchemy2 import *
 import datetime
 import re
+
+class Permission:
+    NONE = 0x00
+    VERIFY_IMAGE = 0x01
+    REJECT_IMAGE = 0x02
+    EDIT_IMAGE = 0x04
+    ADMINISTER = 0x08
+
+class Role(db.Model):
+    __tablename__ = 'Role'
+    id = Column(BigInteger, primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
+    default = Column(Boolean, default=False)
+    permissions = Column(Integer)
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    @staticmethod
+    def insert_roles():
+        roles = {
+            'User':(Permission.NONE, True),
+            'Administrator':(0xff, False)
+        }
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            role.permissions = roles[r][0]
+            role.default = roles[r][1]
+            db.session.add(role)
+        db.session.commit()
 
 class User(db.Model):
     __tablename__ = 'User'
@@ -14,6 +45,22 @@ class User(db.Model):
     #ensure you're passing the FUNCTION utcnow as default, not the value returned from it.
     entry_date  = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
     images = db.relationship('Image', backref='creator')
+    role_id = Column(BigInteger, ForeignKey('Role.id'))
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['ADMIN_USER_EMAIL']:
+                self.role = Role.query.filter_by(permissions=0xff).first()
+            if self.role is None:
+                self.role = Role.query.filter_by(default=True).first()
+
+    #permissions
+    def can(self, permissions):
+        return self.role is not None and (self.role.permissions & permissions) == permissions
+
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
 
     #flask login methods
     #http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins

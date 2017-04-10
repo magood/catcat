@@ -61,7 +61,7 @@ def process_mention(twm):
             lon = twm.place.bounding_box.coordinates[0][0][0]
             lat = twm.place.bounding_box.coordinates[0][0][1]
             wkt = "POINT({0} {1})".format(lon, lat)
-            il.loc = WKTSpatialElement(wkt)
+            il.loc = WKTElement(wkt)
             m.tw_computed_location = il
             #todo average all points in bounding box? compute centroid?
     

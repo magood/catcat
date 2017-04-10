@@ -1,5 +1,6 @@
 ﻿from CatCat.models import Image, Location
 from CatCat import db
+from sqlalchemy import desc
 import re
 
 def get_all_cats():
@@ -18,6 +19,18 @@ def get_all_cats():
         'description': r.description
     } for r in imgquery]
     return images
+
+def get_pending_approval():
+    pending_query = db.session.query(Image).filter(Image.verified == False).order_by(desc(Image.entry_date)).limit(100)
+    pending = [{
+        'id': r.id,
+        'title': r.title,
+        'description': r.description,
+        'address_text': r.address_text,
+        'entry_date': r.entry_date,
+        'filename': '/static/image_media/' + r.filename
+    } for r in pending_query]
+    return pending
 
 def get_nearby(spot, id=None, n=5):
     n = min(n, 10)

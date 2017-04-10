@@ -38,6 +38,8 @@ class Config:
     CATCAT_TWITTER_ACCESS_TOKEN = "########################"
     CATCAT_TWITTER_ACCESS_SECRET ="########################"
 
+    ADMIN_USER_EMAIL = 'someid@provider.com'
+
     @staticmethod
     def init_app(app):
         pass

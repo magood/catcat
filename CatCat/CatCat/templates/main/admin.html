@@ -1,0 +1,59 @@
+{% extends "/empty_layout.html" %}
+{% block head %}
+<style type="text/css">
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Admin</h1>
+
+    {% for cat in pending %}
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <h3 class="panel-title pull-left">Title: {{ cat.title }}</h3>
+            <div class="pull-right">
+                <button type="button" class="takeActionBtn btn btn-danger" data-image-id="{{ cat.id }}" data-action="REJECT">Reject</button>
+                <button type="button" class="takeActionBtn btn btn-primary" data-image-id="{{ cat.id }}" data-action="APPROVE">Approve</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-3">Address</div>
+                <div class="col-sm-9">{{ cat.address_text }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Entry Date</div>
+                <div class="col-sm-9">{{ cat.entry_date.strftime('%m-%d-%Y') }}</div>
+            </div>
+            {% if cat.description %}
+            <blockquote>
+                <p>{{ cat.description }}</p>
+            </blockquote>
+            {% endif %}
+            <img src="{{ cat.filename }}" alt="{{ cat.title }}" class="img-responsive">
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    $(function () {
+        $(".takeActionBtn").click(function (e) {
+            let $bt = $(this);
+            let action = $bt.data("action");
+            let id = $bt.data("imageId");
+            $.post(
+                "/admin/takeAction",
+                {
+                    id: id,
+                    action: action
+                },
+                function (response) {
+                    console.log(response);
+                });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,5 +1,5 @@
-"""
-This script runs the CrumbCatalog application using a development server.
+﻿"""
+This script runs the CatCat application using a development server.
 """
 
 import os

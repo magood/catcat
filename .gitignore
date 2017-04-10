@@ -295,3 +295,6 @@ CatCat/CatCat/config.py
 
 #image dir
 image_media/
+/CatCat/env2
+/CatCat/env3
+/CatCat/envpy3

@@ -1,5 +1,5 @@
 ﻿from flask_wtf import Form
-from wtforms import StringField, validators, TextAreaField, HiddenField, FileField, DecimalField
+from wtforms import StringField, validators, TextAreaField, HiddenField, FileField, DecimalField, IntegerField
 from wtforms.widgets import HiddenInput
 
 class NewSightingForm(Form):
@@ -9,3 +9,7 @@ class NewSightingForm(Form):
     title = StringField('Title', [validators.InputRequired(), validators.Length(max=80)])
     description = TextAreaField('Description', [validators.Length(max=256)])
     imageFile = FileField('Image File', [validators.InputRequired("An image file is required.")])
+
+class AdminActionForm(Form):
+    id = IntegerField('Image Id', [validators.InputRequired()])
+    action = StringField('Action', [validators.InputRequired(), validators.Length(max=10)])

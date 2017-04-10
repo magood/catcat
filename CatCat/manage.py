@@ -3,7 +3,7 @@ from CatCat import create_app, db
 from flask_script import Manager, Shell
 from sqlalchemy.sql import text
 from geoalchemy2 import *
-from CatCat.models import Image, Location
+from CatCat.models import Image, Location, Role
 from bot import reader
 import logging
 from init_data import db_init
@@ -21,6 +21,7 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 def init_db():
     db.drop_all()
     db.create_all()
+    Role.insert_roles()
     
 @manager.command
 def import_data():

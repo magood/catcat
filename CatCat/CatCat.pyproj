@@ -42,6 +42,9 @@
     <Compile Include="CatCat\auth\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CatCat\decorators.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CatCat\FlaskAuthomatic.py">
       <SubType>Code</SubType>
     </Compile>
@@ -108,8 +111,10 @@
     <Folder Include="init_data\legacy_export\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CatCat\static\scripts\ajaxsetup.js" />
     <Content Include="CatCat\templates\auth\login.html" />
     <Content Include="CatCat\templates\empty_layout.html" />
+    <Content Include="CatCat\templates\main\admin.html" />
     <Content Include="CatCat\templates\main\allcats.html" />
     <Content Include="CatCat\templates\main\image.html" />
     <Content Include="CatCat\templates\main\index.html" />
