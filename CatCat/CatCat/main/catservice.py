@@ -1,6 +1,6 @@
 ﻿from CatCat.models import Image, Location
 from CatCat import db
-from sqlalchemy import desc
+from sqlalchemy import desc, or_, and_
 import re
 
 def get_all_cats():
@@ -21,7 +21,7 @@ def get_all_cats():
     return images
 
 def get_pending_approval():
-    pending_query = db.session.query(Image).filter(Image.verified == False).order_by(desc(Image.entry_date)).limit(100)
+    pending_query = db.session.query(Image).filter(and_(Image.verified == False, Image.rejected == False)).order_by(desc(Image.entry_date)).limit(100)
     pending = [{
         'id': r.id,
         'title': r.title,
@@ -31,6 +31,13 @@ def get_pending_approval():
         'filename': '/static/image_media/' + r.filename
     } for r in pending_query]
     return pending
+
+def approveRejectImage(id, approve):
+    doApprove = (approve == True)
+    i = db.session.query(Image).get(id)
+    i.verified = doApprove
+    i.rejected = not doApprove
+    db.session.commit()
 
 def get_nearby(spot, id=None, n=5):
     n = min(n, 10)

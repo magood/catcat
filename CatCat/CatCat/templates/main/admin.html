@@ -7,8 +7,15 @@
 <div class="container">
     <h1>Admin</h1>
 
+    {% if pending|length == 0 %}
+    <h3>No cats pending approval.</h3>
+    <p>Go do something else.</p>
+    {%else%}
+    <h3>Cats pending approval:</h3>
+    {% endif %}
+
     {% for cat in pending %}
-    <div class="panel panel-default">
+    <div class="catSection panel panel-default">
         <div class="panel-heading clearfix">
             <h3 class="panel-title pull-left">Title: {{ cat.title }}</h3>
             <div class="pull-right">
@@ -51,6 +58,10 @@
                     action: action
                 },
                 function (response) {
+                    if (response.success == true) {
+                        let $catSection = $bt.closest(".catSection");
+                        $catSection.fadeOut();
+                    }
                     console.log(response);
                 });
         });

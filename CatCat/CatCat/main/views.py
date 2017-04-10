@@ -116,6 +116,7 @@ def takeAction():
 
     form = forms.AdminActionForm()
     if form.validate_on_submit():
+        catservice.approveRejectImage(form.id.data, form.action.data == "APPROVE")
         return jsonify(success = True)
     #otherwise...
     return jsonify(success = False, errors = form.errors)
